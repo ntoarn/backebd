@@ -7,24 +7,23 @@ const cors = require("cors");
 
 const app = jsonServer.create();
 const router = jsonServer.router(process.env.DB_FILE || "db.json");
-
-// Gắn router db vào app (bắt buộc với json-server-auth)
+  
 app.db = router.db;
 
-// Optional: Cấu hình quyền
 const rules = auth.rewriter({
-  // Mặc định: chỉ users mới có quyền sửa chính mình
   users: 600,
   messages: 640,
-  // Bạn có thể viết thêm mapping route tùy chỉnh nếu cần
-  // "/posts/:category": "/posts?category=:category",
+ 
 });
 
-// Middleware theo đúng thứ tự:
-app.use(cors());           // ✅ Bổ sung CORS
-app.use(rules);            // ✅ Rewriter phải trước auth
-app.use(auth);             // ✅ Auth middleware
-app.use(router);           // ✅ Router cuối cùng
+app.use(cors({
+  origin: "https://react-codefarm-git-task47-ngotoans-projects.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));         
+app.use(rules);            
+app.use(auth);         
+app.use(router);        
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
