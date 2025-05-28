@@ -16,11 +16,7 @@ const rules = auth.rewriter({
  
 });
 
-app.use(cors({
-  origin: "https://react-codefarm-git-task47-ngotoans-projects.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));         
+app.use(cors());         
 app.use(rules);            
 app.use(auth);         
 app.use(router);        
